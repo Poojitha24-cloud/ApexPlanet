@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Sharing Website</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ✅ Header and Navigation with Flexbox */
+    header {
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      font-size: 1.8rem;
+    }
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 25px;
+      background: #e67e22;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    nav a:hover {
+      background: #d35400;
+      transform: scale(1.05);
+    }
+
+    /* ✅ Layout with CSS Grid */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-gap: 20px;
+    }
+    section {
+      background: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #ff7e5f;
+    }
+    ul { margin-left: 20px; }
+
+    /* ✅ Footer */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #ff7e5f;
+      color: #fff;
+      margin-top: 20px;
+    }
+
+    /* ✅ Buttons */
+    button {
+      padding: 10px 20px;
+      background: #e67e22;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #d35400;
+      transform: scale(1.05);
+    }
+
+    /* ✅ Inputs */
+    input, textarea {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    input:focus, textarea:focus {
+      border-color: #ff7e5f;
+      outline: none;
+    }
+
+    /* ✅ Recipe List */
+    #taskList {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    #taskList li {
+      background: #f8f8f8;
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .remove-btn {
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .remove-btn:hover { background: #c0392b; }
+
+    /* ✅ Responsive Grid */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      header { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Recipe Sharing Website</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#recipes">Recipes</a>
+      <a href="#mylist">My Recipe List</a>
+      <a href="#share">Share Recipe</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- ✅ Left Column -->
+    <div>
+      <section id="about">
+        <h2>About Us</h2>
+        <p>
+          This website is built for food lovers! Explore delicious recipes, share your creations, and save your favorite cooking ideas in your personal list.
+        </p>
+      </section>
+
+      <section id="recipes">
+        <h2>Popular Recipes</h2>
+        <ul>
+          <li>Classic Italian Pasta</li>
+          <li>Homemade Chocolate Cake</li>
+          <li>Spicy Indian Curry</li>
+          <li>Fresh Summer Salad</li>
+          <li>Healthy Smoothie Bowl</li>
+        </ul>
+      </section>
+
+      <!-- ✅ Dynamic Recipe List -->
+      <section id="mylist">
+        <h2>My Recipe List</h2>
+        <input type="text" id="taskInput" placeholder="Enter a new recipe" />
+        <button onclick="addTask()">Add Recipe</button>
+        <ul id="taskList"></ul>
+      </section>
+    </div>
+
+    <!-- ✅ Right Column -->
+    <div>
+      <section id="share">
+        <h2>Share Your Recipe</h2>
+        <form id="contactForm" onsubmit="return validateForm()">
+          <input type="text" id="name" placeholder="Your Name" required />
+          <input type="email" id="email" placeholder="Your Email" required />
+          <textarea id="message" placeholder="Your Recipe" rows="4" required></textarea>
+          <button type="submit">Submit Recipe</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Recipe Sharing Website. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // ✅ Form Validation
+    function validateForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      if (!name || !email || !message) {
+        alert("Please fill in all fields.");
+        return false;
+      }
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+      }
+      alert("Thank you for sharing your recipe!");
+      return true;
+    }
+
+    // ✅ Recipe List (To-Do style)
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskValue = taskInput.value.trim();
+
+      if (taskValue === "") {
+        alert("Please enter a recipe.");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.textContent = taskValue;
+
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "Remove";
+      removeBtn.className = "remove-btn";
+      removeBtn.onclick = function() { li.remove(); };
+
+      li.appendChild(removeBtn);
+      document.getElementById("taskList").appendChild(li);
+      taskInput.value = "";
+    }
+  </script>
+</body>
+</html>

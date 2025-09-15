@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Sharing Website</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background-color: #fff8f0; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+
+    header {
+     background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .content {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 200px;
+      background: whitesmoke;
+      color: black;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sidebar a { color: #d19696; text-decoration: none; padding: 10px; border-radius: 8px; transition: 0.3s; }
+    .sidebar a:hover { background: #feb47b; }
+
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    section { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    section h2 { margin-bottom: 15px; color: #ff7e5f; }
+    ul { margin-left: 20px; }
+    button { padding: 10px 20px; background: #e67e22; color: #fff; border: none; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-top: 10px; }
+    button:hover { background: #d35400; transform: scale(1.05); }
+    input, textarea { padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; width: 100%; }
+    input:focus, textarea:focus { border-color: #ff7e5f; outline: none; }
+
+    #taskList { list-style-type: none; margin-top: 15px; padding-left: 0; }
+    #taskList li { background: #f8f8f8; padding: 10px 15px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .remove-btn { background: #e74c3c; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    .remove-btn:hover { background: #c0392b; }
+
+    .carousel { position: relative; max-width: 400px; margin: auto; text-align: center; }
+    .carousel img { width: 100%; border-radius: 10px; }
+    .carousel button { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; padding: 10px; color: #fff; }
+    .carousel button:hover { background: rgba(0,0,0,0.8); }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .carousel-caption { margin-top: 10px; font-weight: bold; }
+
+    footer { text-align: center; padding: 15px; background: #ff7e5f; color: #fff; margin-top: 20px; }
+
+    @media (max-width: 768px) { 
+      .content { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 10px; }
+      .sidebar a { flex: 1; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>Recipe Sharing Website</header>
+
+<div class="content">
+  <div class="sidebar">
+    <a href="#about">About</a>
+    <a href="#recipes">Recipes</a>
+    <a href="#mylist">My Recipe List</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#projects">Recipe Carousel</a>
+    <a href="#api">Food Quote</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="main">
+    <section id="about">
+      <h2>About This Website</h2>
+      <p>Explore delicious recipes, save your favorite dishes, and learn more about cooking with interactive tasks, quizzes, and recipe showcases.</p>
+    </section>
+
+    <section id="recipes">
+      <h2>Popular Recipes</h2>
+      <ul>
+        <li>Italian Pasta</li>
+        <li>Chocolate Cake</li>
+        <li>Indian Curry</li>
+        <li>Summer Salad</li>
+        <li>Smoothie Bowl</li>
+      </ul>
+    </section>
+
+    <section id="mylist">
+      <h2>My Recipe List</h2>
+      <input type="text" id="taskInput" placeholder="Enter a new recipe" />
+      <button onclick="addTask()">Add Recipe</button>
+      <ul id="taskList"></ul>
+    </section>
+
+   <section id="quiz">
+  <h2>Recipe Quiz</h2>
+  <p id="quizQuestion">Loading question...</p>
+  <div id="quizOptions"></div>
+  <p id="quizResult"></p>
+</section>
+
+   <section id="projects">
+  <h2>Recipe Carousel</h2>
+  <div class="carousel">
+    <!-- Added image and caption -->
+    <img id="carouselImg" src="" alt="Recipe Image" />
+    <p id="carouselCaption" class="carousel-caption"></p>
+
+    <button class="prev" onclick="prevImage()">Prev</button>
+    <button class="next" onclick="nextImage()">Next</button>
+  </div>
+</section>
+
+
+   <section id="api">
+  <h2>Latest Food Quote</h2>
+  <p id="quote">Fetching quotes...</p>
+  <button onclick="showQuote()">Get a Quote</button>
+</section>
+    <section id="contact">
+      <h2>Share Your Recipe</h2>
+      <form id="contactForm" onsubmit="return validateForm()">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Your Recipe" rows="4" required></textarea>
+        <button type="submit">Submit Recipe</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Recipe Sharing Website. All Rights Reserved.</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+  const recipes = [
+    {name:"Italian Pasta", img:"C:/Users/pooji/Downloads/italian_dressing.jpg"},
+    {name:"Chocolate Cake", img:"C:/Users/poojiDownloads/Vegan-Chocolate-Cake-FI.jpg"},
+    {name:"Indian Curry", img:"C:/Users/poojiDownloads/spicy.webp"},
+    {name:"Summer Salad", img:"C:/Users/poojiDownloads.Summer-Salad-With-Corn-Strawberries-Avocado-Walder-Wellness-2.webp"},
+    {name:"Smoothie Bowl", img:"C:/Users/poojiDownloads/smoothie.jpeg"}
+  ];
+let imgIndex=0;
+function showImage(){
+  const img=document.getElementById("carouselImg");
+  const caption=document.getElementById("carouselCaption");
+  img.src=recipes[imgIndex].img;
+  caption.textContent=recipes[imgIndex].name;
+}
+function nextImage(){
+  imgIndex=(imgIndex+1)%recipes.length;
+  showImage();
+}
+function prevImage(){
+  imgIndex=(imgIndex-1+recipes.length)%recipes.length;
+  showImage();
+}
+showImage();
+
+  function addTask(){
+    const taskInput=document.getElementById("taskInput");
+    const taskValue=taskInput.value.trim();
+    if(taskValue===""){alert("Enter a recipe"); return;}
+    const li=document.createElement("li");
+    li.textContent=taskValue;
+    const removeBtn=document.createElement("button");
+    removeBtn.textContent="Remove"; removeBtn.className="remove-btn";
+    removeBtn.onclick=function(){li.remove();};
+    li.appendChild(removeBtn);
+    document.getElementById("taskList").appendChild(li);
+    taskInput.value="";
+  }
+
+  function checkAnswer(btn, answer){
+    const result=document.getElementById("quizResult");
+    if(answer==="correct"){result.textContent="Correct"; result.style.color="green";}
+    else{result.textContent="Wrong answer"; result.style.color="red";}
+  }
+
+  async function fetchQuote(){
+    const res=await fetch("https://api.quotable.io/random?tags=food");
+    const data=await res.json();
+    document.getElementById("quote").textContent=data.content+" — "+data.author;
+  }
+
+  function validateForm(){
+    const name=document.getElementById("name").value;
+    const email=document.getElementById("email").value;
+    const message=document.getElementById("message").value;
+    if(!name || !email || !message){alert("Fill all fields"); return false;}
+    const pattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!pattern.test(email)){alert("Enter valid email"); return false;}
+    alert("Thank you for sharing your recipe!"); return true;
+  }
+  // ----- Quiz -----
+const quizData = [
+  {question: "Which ingredient is essential for making a chocolate cake?", options:["Cocoa Powder","Tomato","Cheese"], answer: "Cocoa Powder"},
+  {question: "Which herb is commonly used in Italian pasta?", options:["Basil","Mint","Cilantro"], answer: "Basil"},
+  {question: "What is the main ingredient in Guacamole?", options:["Avocado","Tomato","Potato"], answer: "Avocado"},
+  {question: "Which fruit is used in a classic Lemon Tart?", options:["Lemon","Apple","Banana"], answer: "Lemon"}
+];
+
+let quizIndex = 0;
+
+function showQuiz() {
+  const q = quizData[quizIndex];
+  document.getElementById("quizQuestion").textContent = q.question;
+  const optionsDiv = document.getElementById("quizOptions");
+  optionsDiv.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt);
+    optionsDiv.appendChild(btn);
+  });
+  document.getElementById("quizResult").textContent = "";
+}
+
+function checkAnswer(selected) {
+  const result = document.getElementById("quizResult");
+  if(selected === quizData[quizIndex].answer){
+    result.textContent = "Correct!";
+    result.style.color = "green";
+  } else {
+    result.textContent = "Wrong! Correct answer: " + quizData[quizIndex].answer;
+    result.style.color = "red";
+  }
+  quizIndex = (quizIndex + 1) % quizData.length;
+  setTimeout(showQuiz, 2000); // show next question after 2 seconds
+}
+
+showQuiz();
+  const foodQuotes = [
+    "Cooking is like love. It should be entered into with abandon or not at all. — Harriet Van Horne",
+    "The secret of success in the kitchen is passion and patience. — Unknown",
+    "A recipe has no soul. You as the cook must bring soul to the recipe. — Thomas Keller",
+    "People who love to eat are always the best people. — Julia Child",
+    "Good food is the foundation of genuine happiness. — Auguste Escoffier",
+    "Cooking is an art, but all art requires knowing something about the techniques and ingredients. — Nathan Myhrvold",
+    "Life is uncertain. Eat dessert first. — Ernestine Ulmer",
+    "To cook is to express yourself, to share a part of your soul through flavor. — Unknown",
+    "Recipes are like a map; the ingredients guide you, but the journey is yours to create. — Unknown",
+    "Food is symbolic of love when words are inadequate. — Alan D. Wolfelt"
+  ];
+
+  function showQuote() {
+    const quoteIndex = Math.floor(Math.random() * foodQuotes.length);
+    document.getElementById("quote").textContent = foodQuotes[quoteIndex];
+  }
+
+  // Optional: show a random quote on page load
+  showQuote();
+
+
+</script>
+
+</body>
+</html>

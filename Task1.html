@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Sharing Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fdf6f0;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    nav {
+      margin: 10px 0;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 25px;
+      background: #e67e22;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    nav a:hover {
+      background: #d35400;
+      transform: scale(1.05);
+    }
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+    section {
+      background: #fff;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    section:hover {
+      transform: translateY(-5px);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #ff7e5f;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #ff7e5f;
+      color: #fff;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 12px 25px;
+      background: #e67e22;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #d35400;
+      transform: scale(1.05);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+    input, textarea {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    input:focus, textarea:focus {
+      border-color: #ff7e5f;
+      outline: none;
+    }
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      nav a {
+        display: inline-block;
+        margin: 5px 0;
+      }
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to the Recipe Sharing Website</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#recipes">Recipes</a>
+      <a href="#contact">Share Recipe</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <section id="about">
+      <h2>About Us</h2>
+      <p>
+        Love cooking? This platform is built for food lovers like you! Here you can discover delicious recipes, share your own cooking ideas, and connect with others who are passionate about food.
+      </p>
+    </section>
+
+    <section id="recipes">
+      <h2>Popular Recipes</h2>
+      <ul>
+        <li>Classic Italian Pasta</li>
+        <li>Homemade Chocolate Cake</li>
+        <li>Spicy Indian Curry</li>
+        <li>Fresh Summer Salad</li>
+        <li>Healthy Smoothie Bowl</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Share Your Recipe</h2>
+      <p>
+        Have a special recipe you’d like to share? Submit it below and inspire others with your cooking skills!
+      </p>
+      <form id="contactForm" onsubmit="return validateForm()">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Your Recipe" rows="4" required></textarea>
+        <button type="submit">Submit Recipe</button>
+      </form>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Recipe Sharing Website. All Rights Reserved.</p>
+    <p>Made with love for food lovers</p>
+  </footer>
+
+  <script>
+    function showAlert() {
+      alert("Hello! Welcome to our Recipe Sharing Website.");
+    }
+    function validateForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      if (!name || !email || !message) {
+        alert("Please fill in all fields.");
+        return false;
+      }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+      }
+      alert("Thank you for sharing your recipe!");
+      return true;
+    }
+  </script>
+</body>
+</html>
